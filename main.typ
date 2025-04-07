@@ -1,3 +1,4 @@
+#import "@preview/mannot:0.2.3": *
 #let title = [Stats]
 #set page(
    paper: "a4",
@@ -12,22 +13,22 @@
 $ 
 P(A|B) = frac(P(A inter B), p(B)) \
 "assume" P(B) != 0 \
-P(Epsilon_1 union Epsilon_2 | H) = P(Epsilon_1 | H) + P(Epsilon_2 | H) 
-- P(Epsilon_1 inter Epsilon_2 | H)
+P(epsilon_1 union epsilon_2 | H) = P(epsilon_1 | H) + P(epsilon_2 | H) 
+- P(epsilon_1 inter epsilon_2 | H)
 $
 
 = Law of total Probablilities
-$ P(Epsilon) = P(Epsilon | H) P(H) + P(Epsilon | H^c) P(H^c) $
+$ P(epsilon) = P(epsilon | H) P(H) + P(epsilon | H^c) P(H^c) $
 
 = Bayes' Formula
 $ P(H|E) = 
 frac(
-P(Epsilon | H) P(H),
-P(Epsilon)
+P(epsilon | H) P(H),
+P(epsilon)
 ) \
 = frac(
-P(Epsilon | H) P(H),
-P(Epsilon|H)P(H) + P(Epsilon|H^c)P(H^c)
+P(epsilon | H) P(H),
+P(epsilon|H)P(H) + P(epsilon|H^c)P(H^c)
 ) $
 
 = Discrete Random Variable
@@ -102,6 +103,9 @@ E[X] = N p \
 $
 
 == Geometric Distrobution
+Is used to model an infinite suite of independent events with the
+same probability of success. $P(X = i)$ - the probability that the
+event is a success for the 1st time at the i-th trial.
 
 $
 P(X = i) = (1 - p)^(i - 1) p \
@@ -110,3 +114,146 @@ E[x] = frac(1, p) \
 $
 
 == Poisson Distrobution
+
+Used to model the number of occurences of an event in a time interval or space
+that occur independent from the last time it occured. $P(X=i)$ represents
+the probablility that the even $X$ takes place $i$ times per unit (space/time)
+
+$
+P(X=i) = frac(e^(-lambda) lambda^i, i!) \
+E[X] = lambda
+"Var"(X) = lambda
+$
+
+*Poisson Convergence*: Binomial distrobution convergences to Poisson
+
+$
+P(N p) ~ B (N, p) "(for large "N" and small "N p")"
+$
+
+*DeMoivre - Laplace*
+$ B(N, p) ~ N(N p, sqrt(N p q)) "For large "N \ q = 1-p $
+
+
+= Distrobutions in R
+
+#align(center)[
+#show table.cell: it => {
+   set text(18pt)
+      set align(left)
+   if it.x == 0 or it.y == 0 {
+      set text(orange)
+      strong(it)
+   } else {
+      set text(blue)
+         it
+   }
+}
+#table(
+stroke: none,
+gutter: 0.2em,
+columns: 4,
+table.header(
+   [Distrobution], [Sample], [PMF], [CMF]
+   ),
+   [ Uniform ] , [ runif ], [ dunif ], [ punif ],
+   [ Binomial ] , [ rbinom ], [ dbinom ], [ pbinom ],
+   [ Geometric ] , [ rgeom ], [ dgeom ], [ pgeom ],
+   [ Poisson ] , [ rpois ], [ dpois ], [ ppois ],
+)
+]
+
+$
+("PMF") P(Y=x) \
+("CMF") P(Y<=x) \
+(1-"CMF") P(Y>x)
+$
+
+= Uniform Random Variables (Uniform Distribution)
+
+We don't know anything except they have upper and lower bound
+
+$
+f(x) = cases(frac(1, b-a)", " a <= x < b, 0 )\
+E[x] = frac(a + b, 2) \
+"Var"(X) = frac((b-a)^2, 12)
+$
+
+= Bayesian Inference
+
+$
+mark(P(H|E), tag: #<post>, color: #blue) = mark(P(H), tag:#<prior>) mark(frac(P(E|H),P(E)), tag: #<marg>, color: #green)
+
+#annot(<post>, pos:bottom+left, yshift: 2em)[
+#set text(8pt)
+Posterior Probablility
+]
+#annot(<prior>, pos:bottom, yshift: 2em)[
+#set text(8pt)
+Prior Probablility
+]
+#annot(<marg>, pos:bottom+right, yshift: 2em)[
+#set text(8pt)
+Marginal liklihood of $epsilon$ given $H$
+]
+$
+#v(10em)
+
+
+#align(center)[
+#show table.cell: it => {
+   set text(18pt)
+      set align(left)
+   if it.y == 0 {
+      set text(orange)
+      strong(it)
+   } else {
+      set text(yellow)
+         it
+   }
+}
+#table(
+stroke: none,
+gutter: 0.2em,
+columns: 3,
+table.header(
+   [liklihood], [Prior], [Posterior] ),
+   [Binom], [Beta], [$alpha'=alpha+k, beta'=beta+n-k$],
+   [Poisson], [Gamma], [$alpha'=alpha+Sigma^n_i=1 x_i, beta'=beta + n$],
+   [Normal], [Normal], 
+   [$mu'=(
+   frac(mu_0, sigma^2_0)
+   + 
+   frac(Sigma^n_(i=1) x_i, sigma^2)
+   )
+   (
+   frac(1, sigma^2_0)
+   +
+   frac(n, sigma^2)
+   )^(-1)
+   \
+   sigma'=(frac(1, sigma^2_0) + frac(n, sigma_0))^(-1)
+   $],
+)
+]
+
+= Beta
+
+$
+f (x) = frac(Gamma (alpha + beta), Gamma(alpha) Gamma(beta)) x^(alpha - 1) (1-x)^(beta - 1) \
+E[X] = frac(alpha, alpha + beta) \
+"Var"(X) = frac(alpha beta, (alpha + beta)^2 (alpha + beta + 1))
+$
+
+= Gamma
+
+$
+f (x) = frac(beta^alpha, Gamma(alpha)) x^(alpha - 1) e^(- beta x) \
+E[X] = frac(alpha, beta) \
+"Var"(X) = frac(alpha, beta^2)
+$
+
+= Exponential Distrobution
+time or space between 2 events
+
+
