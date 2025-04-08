@@ -219,7 +219,7 @@ columns: 3,
 table.header(
    [liklihood], [Prior], [Posterior] ),
    [Binom], [Beta], [$alpha'=alpha+k, beta'=beta+n-k$],
-   [Poisson], [Gamma], [$alpha'=alpha+Sigma^n_i=1 x_i, beta'=beta + n$],
+   [Poisson], [Gamma], [$alpha'=alpha+Sigma^n_(i=1) x_i, beta'=beta + n$],
    [Normal], [Normal], 
    [$mu'=(
    frac(mu_0, sigma^2_0)
@@ -232,7 +232,7 @@ table.header(
    frac(n, sigma^2)
    )^(-1)
    \
-   sigma'=(frac(1, sigma^2_0) + frac(n, sigma_0))^(-1)
+   sigma^2'=(frac(1, sigma^2_0) + frac(n, sigma))^(-1)
    $],
 )
 ]
@@ -256,4 +256,86 @@ $
 = Exponential Distrobution
 time or space between 2 events
 
+$
+f (x) = cases(lambda e^(-lambda x)  x >= 0, 0) \
+E[X] = frac(1, lambda) \
+"Var"(X) = frac(1, lambda^2)
+$
+
+= Normal Distrobution
+
+$
+f (x) = frac(1, sigma sqrt(2 pi)) e^(- frac((x - mu)^2, 2 sigma^2)) \
+E[X] = mu \
+"Var"(X) = mu^2 \ 
+N(0, 1) "(is the standard normal distrobution)"
+$
+
+= Central Limit Theorem
+
+let $X_1, ..., X_N$ be a sequencee of independent and identically distributed random
+variables, each with the same mean and variance
+
+$
+frac(
+Sigma^N_(i=1) X_i - N_mu,
+sqrt(N sigma^2)
+)
+~ N(0,1)
+$
+
+= Chebyshev's Inequality
+
+$X$ be a random variable
+
+$
+forall t > 0, t = b - frac(a + b, 2) \
+P(|X - E[X]| >= t) <= frac("Var"(x), t^2)
+$
+
+= Markov's Inequality
+
+How fast $P(X >= t)$ goes to $0$ as $t -> infinity$
+
+$X$ be a random non-negative with variance
+
+
+$
+forall t > 0, P(X >= t) <= frac(E[X], t)
+$
+
+= Hypothesis Testing
+
+$
+H_0 : "null hypothesis, assumed true" \
+H_a : "alternative hypothesis " not H_0
+$
+
+*Significance level*
+
+$ alpha : "probability of rejecting " H_0 " when it is true" $
+
+*p-value*: lowest level $alpha$ to which $H_0$ could have been rejected
+
+*Outcomes*: 
+- reject $H_0 => H_a$
+- do not reject $H_0 =>$ don't claim anything
+
+$ p < a => "reject " H_0", else nothing" $
+
+*type 1 error*: rejecting $H_0$ when its true
+
+*type 2 error*: failing to reject when false
+
++ Formulate $H_0$ and $H_a$
++ specify significance level $alpha$ usually ${0.1, 0.05, 0.01}$
++ Given $H_0$ look up critical value of p-value
++ Do not reject $H_0$ if found value $>$ significance level
+
+
+= Test Formulate
+
+*Mean of Normal Population with known variance*
+
+$ z = frac( overline(x) - mu_0, sigma / sqrt(n)) ~ N(0,1) $
 
