@@ -208,7 +208,7 @@ $
       set text(orange)
       strong(it)
    } else {
-      set text(yellow)
+      set text(blue)
          it
    }
 }
@@ -232,7 +232,7 @@ table.header(
    frac(n, sigma^2)
    )^(-1)
    \
-   sigma^2'=(frac(1, sigma^2_0) + frac(n, sigma))^(-1)
+   sigma^2'=(frac(1, sigma^2_0) + frac(n, sigma^2))^(-1)
    $],
 )
 ]
@@ -335,7 +335,42 @@ $ p < a => "reject " H_0", else nothing" $
 
 = Test Formulate
 
-*Mean of Normal Population with known variance*
+*Mean of Normal Population with _known_ variance*
 
 $ z = frac( overline(x) - mu_0, sigma / sqrt(n)) ~ N(0,1) $
+
+*Mean of Normal Population with _unknown_ variance*
+
+$ T = frac(overline(x) - mu_0, S / sqrt(n)) ~ t_(n - 1) $
+
+*Proportion of a Population*
+
+$ z = frac(accent(p, hat) - p_0, sqrt(p_0 (1 - p_0)/n)) ~ N(0,1) $
+
+*Difference of means of Normal Population with _unknown_ variance*
+
+$
+T = frac(
+(overline(x_1) - overline(x_2)) - (mu_1 - mu_2),
+S_p (1/n_1 + 1/n_2)
+) ~ t_(n_1 + n_2 - 2)
+$
+
+#let hp = $accent(p, hat)$
+*Difference of 2 proportions*
+$
+z = frac( hp_1 - hp_2, sqrt( hp (1 - hp) ( 1/n_1 + 1/n_2))) ! N(0,1) \
+#hp = frac(n_1 hp_1 + n_2 hp_2, n_1 + n_2)
+$
+
+*$chi^2$ Test for goodness of fit*
+
+$ chi^2 = Sigma^k_(i=1) frac((O_i - E_i)^2, E_i) ~ chi^2_(k-1) $
+
+*$chi^2$ Test for independence*
+
+$
+chi^2 = Sigma^k_(i = 1) Sigma^r_(j = 1) frac((O_(i j) - E_(i j))^2, E_(i j)) ~ chi^2_((k - 1)(r - 1))
+$
+
 
