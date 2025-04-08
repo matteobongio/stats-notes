@@ -47,7 +47,7 @@ $ f_x (x) = P(X = x) "forall" x $
 
 *Probablility Mass Function*
 
-A random vvariable $X$ is continuous if its cumulative distrobution
+A random vvariable $X$ is continuous if its cumulative distribution
 function $F_x(x)$ is continuous
 
 $
@@ -81,7 +81,7 @@ $
 
 = Discrete Random Variation
 
-== Uniform distrobution
+== Uniform distribution
 
 $
 D(X=x) = frac(1, N) \
@@ -89,7 +89,7 @@ E[x] = frac(1, N) Sigma^N_(i = 1) x_i = mu \
 "Var"(X) = frac(1, N) Sigma^N_(i=1) (x_i - mu)^2
 $
 
-== Bernoulli Distrobution
+== Bernoulli Distribution
 
 Used to model events with 2 mutually exclusive outcomes
 
@@ -99,7 +99,7 @@ E[X] = p \
 "Var"(X) = p (1-p)
 $
 
-== Binomial Distrobution
+== Binomial Distribution
 finite number of independent Bernoulli trials
 
 $
@@ -108,7 +108,7 @@ E[X] = N p \
 "Var"(x) = N p (1-p)
 $
 
-== Geometric Distrobution
+== Geometric Distribution
 Is used to model an infinite suite of independent events with the
 same probability of success. $P(X = i)$ - the probability that the
 event is a success for the 1st time at the i-th trial.
@@ -119,7 +119,7 @@ E[x] = frac(1, p) \
 "Var"(X) = frac(1-p,p^2)
 $
 
-== Poisson Distrobution
+== Poisson Distribution
 
 Used to model the number of occurences of an event in a time interval or space
 that occur independent from the last time it occured. $P(X=i)$ represents
@@ -131,7 +131,7 @@ E[X] = lambda
 "Var"(X) = lambda
 $
 
-*Poisson Convergence*: Binomial distrobution convergences to Poisson
+*Poisson Convergence*: Binomial distribution convergences to Poisson
 
 $
 P(N p) ~ B (N, p) "(for large "N" and small "N p")"
@@ -141,7 +141,7 @@ $
 $ B(N, p) ~ N(N p, sqrt(N p q)) "For large "N \ q = 1-p $
 
 
-= Distrobutions in R
+= Distributions in R
 
 #align(center)[
 #show table.cell: it => {
@@ -160,7 +160,7 @@ stroke: none,
 gutter: 0.2em,
 columns: 4,
 table.header(
-   [Distrobution], [Sample], [PMF], [CMF]
+   [Distribution], [Sample], [PMF], [CMF]
    ),
    [ Uniform ] , [ runif ], [ dunif ], [ punif ],
    [ Binomial ] , [ rbinom ], [ dbinom ], [ pbinom ],
@@ -259,7 +259,7 @@ E[X] = frac(alpha, beta) \
 "Var"(X) = frac(alpha, beta^2)
 $
 
-= Exponential Distrobution
+= Exponential Distribution
 time or space between 2 events
 
 $
@@ -268,13 +268,13 @@ E[X] = frac(1, lambda) \
 "Var"(X) = frac(1, lambda^2)
 $
 
-= Normal Distrobution
+= Normal Distribution
 
 $
 f (x) = frac(1, sigma sqrt(2 pi)) e^(- frac((x - mu)^2, 2 sigma^2)) \
 E[X] = mu \
 "Var"(X) = mu^2 \ 
-N(0, 1) "(is the standard normal distrobution)"
+N(0, 1) "(is the standard normal distribution)"
 $
 
 = Central Limit Theorem
