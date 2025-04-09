@@ -1,4 +1,10 @@
 #import "@preview/mannot:0.2.3": *
+#import "@preview/codly:1.3.0": *
+#import "@preview/codly-languages:0.1.1": *
+#show: codly-init.with()
+#codly(languages: codly-languages)
+
+
 #let title = [Stats]
 #set page(
    paper: "a4",
@@ -373,4 +379,102 @@ $
 chi^2 = Sigma^k_(i = 1) Sigma^r_(j = 1) frac((O_(i j) - E_(i j))^2, E_(i j)) ~ chi^2_((k - 1)(r - 1))
 $
 
+= R Code
+== Libraries
+```R
+library(tidyverse)
+# cool stuff
+data({dataset})
+summarise({dataset})
+mean({dataset})
+median({dataset})
+sd({dataset})
+```
 
+== filtering
+```R
+data$Model <- rownames(data)
+data %>% filter(str_detect(Model,'Merc')) %>% summarise(mean(mpg))
+```
+
+== GGplot
+
+*General Structure*
+```R
+ggplot(data = <DATA>, aes(x = <X>, y = <Y>)) + <GEOM_FUNCTION>()
+```
+
+- `geom_point()` – Scatter plot
+- `geom_line()` – Line chart
+- `geom_bar()` – Bar chart
+- `geom_histogram()` – Histogram
+- `geom_boxplot()` – Boxplot
+
+== Distrobution Simulation
+```R
+#define the outcome space
+outcomeSpace <- c(1,2,3,4,5,6)
+#define the function to simulate the rolls
+getOne <- function(){
+   trial <- 0
+   while (TRUE){
+      outcome <- sample(outcomeSpace,1,prob = rep(0.166666667,6))
+      trial <- trial +1
+      if (outcome==1){
+         break
+      }
+   }
+   return(trial)
+}
+#replicate the experiment
+avgNumberOfTrials <- c()
+for (i in c(10,50,100,500,1000,5000,10000,50000,100000)) {
+   set.seed(999)
+   trials <- replicate(i,getOne())
+   avgNumberOfTrials <- append(avgNumberOfTrials,mean(trials))
+}
+```
+
+#pagebreak()
+
+== Bayesian Inference: Calculating the Posterior Distrobution
+
+=== Normal Distrobution
+
+```R
+data(ChickWeight)
+weights <- ChickWeight$weight[ChickWeight$Diet == "1"]
+prior_mean <- 200
+prior_var <- 20ˆ2
+# Data summary
+n <- length(weights)
+sample_mean <- mean(weights)
+sample_var <- var(weights)
+# Posterior parameters
+posterior_sd <- sqrt(1 / (1 / prior_var + n / sample_var))
+posterior_mean <- posterior_sd**2 * (prior_mean / prior_var + n * sample_mean / sample_var)
+posterior_mean <- round(posterior_mean, 2)
+glue("Posterior_Mean = {posterior_mean}")
+```
+
+== Credible Interval
+```R
+z_alpha2 <- -qnorm(0.05/2)
+lowerbound <- posterior_mean - z_alpha2 * posterior_sd
+upperbound <- posterior_mean + z_alpha2 * posterior_sd
+c(lowerbound, upperbound)
+```
+
+== Confidence Interval
+```R
+# two sided
+supp_oj <- ToothGrowth$len[ToothGrowth$supp == 'OJ']
+supp_vc <- ToothGrowth$len[ToothGrowth$supp == 'VC']
+t_test_result <- t.test(supp_oj, supp_vc)
+
+```
+
+== Linear Regression Model
+```R
+data <- lm(iris$Sepal.Length - iris$Petal.Width)
+```
