@@ -1,9 +1,30 @@
 #import "@preview/mannot:0.2.3": *
+#import "@preview/showybox:2.0.4": showybox
 #import "@preview/codly:1.3.0": *
 #import "@preview/codly-languages:0.1.1": *
 #show: codly-init.with()
 #codly(languages: codly-languages)
 
+#let Examplebox(text, ..opts) = {
+  showybox(
+    title-style: (
+      weight: 900,
+      color: orange.darken(40%),
+      sep-thickness: 0pt,
+      align: center
+    ),
+    frame: (
+      title-color: orange.lighten(80%),
+      border-color: orange.lighten(40%),
+      body-color: orange.lighten(90%),
+      thickness: (left: 1pt),
+      radius: (top-right: 5pt, bottom-right:5pt, rest: 0pt)
+    ),
+    title: "Examples",
+    text,
+    ..opts
+  )
+}
 
 #let title = [Stats]
 #set page(
@@ -170,9 +191,9 @@ table.header(
 ]
 
 $
-("PMF") P(Y=x) \
-("CMF") P(Y<=x) \
-(1-"CMF") P(Y>x)
+P(Y=x) => "PMF" \
+P(Y<=x) => "CMF" \
+P(Y>x) => 1-"CMF"
 $
 
 = Uniform Random Variables (Uniform Distribution)
@@ -290,6 +311,8 @@ sqrt(N sigma^2)
 ~ N(0,1)
 $
 
+*basically just use normal distribution*
+
 = Chebyshev's Inequality
 
 $X$ be a random variable
@@ -299,12 +322,35 @@ forall t > 0, t = b - frac(a + b, 2) \
 P(|X - E[X]| >= t) <= frac("Var"(x), t^2)
 $
 
+#Examplebox([
+Use Chebyshev’s Inequality to find a lower bound to the probability that the laptop sales are
+strictly between 25 and 35. 
+
+$
+E[X] = 30 \
+"Var"(X) = 9 \ \
+P(25 < X < 35) = P(30 - 25 < X -30 < 35 - 30) = P(5 < X - 30 < 5) \
+P(|X - 30| < 5) = 1 - P(|X - 30| >= 5) \ \
+P(|X - 30| >= 5) = frac(9,5^2) \
+P(25 < X < 35) = 1 - frac(9,5^2)
+$
+])
+
 = Markov's Inequality
 
 How fast $P(X >= t)$ goes to $0$ as $t -> infinity$
 
 $X$ be a random non-negative with variance
 
+#Examplebox([
+Use Markov’s Inequality to find an upper bound on the probability that next week 40 or more
+laptops are sold.
+$
+E[X] = 30 \
+"Var"(X) = 9 \ \
+P(X >= 40) = frac(30, 40)
+$
+])
 
 $
 forall t > 0, P(X >= t) <= frac(E[X], t)
@@ -459,7 +505,7 @@ glue("Posterior_Mean = {posterior_mean}")
 
 == Credible Interval
 ```R
-z_alpha2 <- -qnorm(0.05/2)
+z_alpha2 <- -qnorm(0.05/2, mean=posterior_mean, sd=posterior_sd)
 lowerbound <- posterior_mean - z_alpha2 * posterior_sd
 upperbound <- posterior_mean + z_alpha2 * posterior_sd
 c(lowerbound, upperbound)
