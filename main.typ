@@ -252,12 +252,7 @@ table.header(
    frac(mu_0, sigma^2_0)
    + 
    frac(Sigma^n_(i=1) x_i, sigma^2)
-   )
-   (
-   frac(1, sigma^2_0)
-   +
-   frac(n, sigma^2)
-   )^(-1)
+   )sigma^2'
    \
    sigma^2'=(frac(1, sigma^2_0) + frac(n, sigma^2))^(-1)
    $],
